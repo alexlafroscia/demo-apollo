@@ -1,6 +1,4 @@
-type Props = {
-  [prop: string]: any;
-};
+type Props<T> = { [K in keyof T]?: T[K] };
 
 export default class DB<T> {
   /** The store of items */
@@ -13,7 +11,7 @@ export default class DB<T> {
   /**
    * Find an item in the store that matches the given properties
    */
-  where(props: Props) {
+  where(props: Props<T>) {
     return this.items.find(item =>
       Object.keys(props).reduce(
         (acc, prop) => acc && item[prop] === props[prop],
