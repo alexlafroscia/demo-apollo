@@ -4,12 +4,16 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node index.js"
+    "start": "ts-node src/index.js"
   },
   "dependencies": {
-    "@std/esm": "^0.26.0",
     "apollo-server": "^2.0.0-beta.11",
     "graphql": "^0.13.2",
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.10",
+    "ts-node": "^7.0.0",
+    "typescript": "^2.9.2"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.111"
   }
 }

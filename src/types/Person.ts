@@ -1,11 +1,16 @@
-import Apollo from "apollo-server";
+import { gql } from "apollo-server";
 import { jobs } from "./Job";
 import DB from "../utils/db";
 
-const { gql } = Apollo;
+interface Person {
+  id: number;
+  name: string;
+  _jobId?: number;
+  friends: Person[];
+}
 
-const alex = { id: 1, name: "Alex", _jobId: 1 };
-const emily = { id: 2, name: "Emily", _jobId: 1 };
+const alex: Person = { id: 1, name: "Alex", _jobId: 1, friends: [] };
+const emily: Person = { id: 2, name: "Emily", _jobId: 1, friends: [] };
 
 alex.friends = [emily];
 emily.friends = [alex];
@@ -28,7 +33,7 @@ export const typeDef = gql`
 
 export const resolvers = {
   Person: {
-    greeting(obj) {
+    greeting(obj: Person) {
       return `Hello from ${obj.name}!`;
     },
 
@@ -37,13 +42,7 @@ export const resolvers = {
     }
   },
   Mutation: {
-    updatePerson(
-      _obj,
-      {
-        id,
-        person: { name }
-      }
-    ) {
+    updatePerson(_obj, { id, person: { name } }) {
       let person = people.where({ id });
       person.name = name;
 

@@ -1,6 +1,4 @@
-import Apollo from "apollo-server";
-
-const { gql } = Apollo;
+import { gql } from "apollo-server";
 
 const typeDef = gql`
   type Mutation {
