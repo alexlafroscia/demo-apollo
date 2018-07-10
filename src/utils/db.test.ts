@@ -18,11 +18,55 @@ test("it can query for an item based on multiple properties", t => {
   t.is(db.where({ id: 1, name: "Emily" }), emily);
 });
 
-test("it is iterable", t => {
+test("it can remove an item", t => {
   let alex = { id: 1, name: "Alex" };
   let emily = { id: 1, name: "Emily" };
   let db = new DB(alex, emily);
 
-  let items = [...db];
-  t.deepEqual(items, [alex, emily]);
+  db.remove(alex);
+
+  t.deepEqual([...db], [emily]);
+});
+
+test("it can add an item", t => {
+  let alex = { id: 1, name: "Alex" };
+  let emily = { id: 1, name: "Emily" };
+  let db = new DB(emily);
+
+  db.insert(alex);
+
+  t.deepEqual([...db], [emily, alex]);
+});
+
+test("it can commit changes", t => {
+  let alex = { id: 1, name: "Alex" };
+  let emily = { id: 1, name: "Emily" };
+  let db = new DB(alex, emily);
+
+  db.snapshot();
+
+  db.remove(alex);
+  db.snapshot();
+
+  db.remove(emily);
+  db.snapshot();
+
+  t.deepEqual([...db], [], "Verify current state");
+
+  db.rollback();
+
+  t.deepEqual([...db], [emily], "Rolled back to just Emily in the DB");
+
+  db.rollback();
+
+  t.deepEqual([...db], [alex, emily], "Rolled back to the initial snapshot");
+});
+
+test("it cannot revert past the initial state", t => {
+  let alex = { id: 1, name: "Alex" };
+  let db = new DB(alex);
+
+  t.throws(() => {
+    db.rollback();
+  });
 });
