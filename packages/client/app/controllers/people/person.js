@@ -1,7 +1,12 @@
 import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
 import { alias, oneWay } from "@ember/object/computed";
-import mutation from "demo-apollo-client/gql/mutations/update-person";
+
+import { task } from "ember-concurrency";
+
+import getAllJobs from "demo-apollo-client/gql/queries/jobs";
+import updatePerson from "demo-apollo-client/gql/mutations/update-person";
+import associateJob from "demo-apollo-client/gql/mutations/associate-job";
 
 export default Controller.extend({
   apollo: service(),
@@ -9,12 +14,12 @@ export default Controller.extend({
   person: alias("model"),
   bufferedName: oneWay("person.name"),
 
+  editingJob: false,
+  loadJobs: task(function*() {
+    return yield this.apollo.query({ query: getAllJobs }, "jobs");
+  }),
+
   actions: {
-    /**
-     * Note: No need to update the `model` on the controller! The watched query
-     * in the route will automatically update with the new state, pushed from the
-     * server
-     */
     async updateName({ target: { value } }) {
       let variables = {
         id: this.person.id,
@@ -23,7 +28,29 @@ export default Controller.extend({
         }
       };
 
-      await this.apollo.mutate({ mutation, variables }, "updatePerson");
+      await this.apollo.mutate(
+        { mutation: updatePerson, variables },
+        "updatePerson"
+      );
+    },
+
+    async setJob(job) {
+      let variables = {
+        id: this.person.id,
+        job: {
+          id: job.id
+        }
+      };
+
+      await this.apollo.mutate(
+        { mutation: associateJob, variables },
+        "associateJob"
+      );
+    },
+
+    editJob() {
+      this.set("editingJob", true);
+      this.loadJobs.perform();
     }
   }
 });

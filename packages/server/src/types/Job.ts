@@ -6,9 +6,16 @@ interface Job {
   title: string;
 }
 
-export const jobs = new DB<Job>({ id: 1, title: "Software Engineer" });
+export const jobs = new DB<Job>(
+  { id: 1, title: "Software Engineer" },
+  { id: 2, title: "Graphic Designer" }
+);
 
 export const typeDef = gql`
+  input JobIdentifierInput {
+    id: Int!
+  }
+
   type Job {
     id: Int!
     title: String!

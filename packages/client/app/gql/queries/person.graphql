@@ -5,6 +5,7 @@ query Person($id: Int!, $withJob: Boolean = false) {
     ...personInfo
 
     job @include(if: $withJob) {
+      id
       title
     }
 

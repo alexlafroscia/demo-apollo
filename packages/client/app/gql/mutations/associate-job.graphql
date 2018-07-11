@@ -1,0 +1,8 @@
+mutation associateJob($id: Int!, $job: JobIdentifierInput!) {
+  linkJobToPerson(id: $id, job: $job) {
+    id
+    job {
+      id
+    }
+  }
+}

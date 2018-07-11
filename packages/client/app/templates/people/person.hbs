@@ -1,10 +1,16 @@
 <div class="jumbotron">
   <input
-    class="display-4 mb-2"
+    class="display-4 mb-2 w-100"
     value={{bufferedName}}
     onChange={{action 'updateName'}}
   />
-  <p class="lead">{{person.job.title}}</p>
+  <p class="lead" id="job-title">
+    {{person.job.title}}
+
+    <button {{action 'editJob'}} class="btn btn-link py-0">
+      Change
+    </button>
+  </p>
 </div>
 
 <h2>Friends</h2>
@@ -18,3 +24,30 @@
     </li>
   {{/each}}
 </ul>
+
+{{#if editingJob}}
+  {{#bs-modal onHide=(action (mut editingJob) false) as |modal|}}
+    {{#modal.header}}
+      <h4 class="modal-title">
+        Pick a Job
+      </h4>
+    {{/modal.header}}
+
+    {{#modal.body}}
+      {{#if loadJobs.isRunning}}
+        Loading...
+      {{else}}
+        <div class="list-group">
+          {{#each loadJobs.lastSuccessful.value as |job|}}
+            <button
+              class="list-group-item list-group-item-action {{if (eq job.id person.job.id) 'active'}}"
+              {{action 'setJob' job}}
+            >
+              {{job.title}}
+            </button>
+          {{/each}}
+        </div>
+      {{/if}}
+    {{/modal.body}}
+  {{/bs-modal}}
+{{/if}}

@@ -47,6 +47,13 @@ export const resolvers = {
       person.name = name;
 
       return person;
+    },
+
+    linkJobToPerson(_obj, { id, job }) {
+      let person = people.where({ id });
+      person._jobId = job.id;
+
+      return person;
     }
   },
   Query: {

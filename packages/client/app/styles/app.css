@@ -1,0 +1,7 @@
+#job-title button {
+  display: none;
+}
+
+#job-title:hover button {
+  display: initial;
+}
