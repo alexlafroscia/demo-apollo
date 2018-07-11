@@ -1,0 +1,7 @@
+#import 'demo-apollo-client/gql/fragments/person-info'
+
+query People {
+  people {
+    ...personInfo
+  }
+}

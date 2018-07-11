@@ -1,0 +1,16 @@
+<div class="jumbotron">
+  <h1 class="display-4">{{person.name}}</h1>
+  <p class="lead">{{person.job.title}}</p>
+</div>
+
+<h2>Friends</h2>
+
+<ul>
+  {{#each person.friends as |friend|}}
+    <li>
+      {{#link-to 'people.person' friend.id}}
+        {{friend.name}}
+      {{/link-to}}
+    </li>
+  {{/each}}
+</ul>

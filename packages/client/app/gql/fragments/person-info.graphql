@@ -1,0 +1,4 @@
+fragment personInfo on Person {
+  id
+  name
+}

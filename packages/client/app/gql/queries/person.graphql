@@ -1,0 +1,15 @@
+#import 'demo-apollo-client/gql/fragments/person-info'
+
+query Person($id: Int!, $withJob: Boolean = false) {
+  person(id: $id) {
+    ...personInfo
+
+    job @include(if: $withJob) {
+      title
+    }
+
+    friends {
+      ...personInfo
+    }
+  }
+}

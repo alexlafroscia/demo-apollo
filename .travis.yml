@@ -1,0 +1,21 @@
+---
+language: node_js
+node_js:
+  - 10
+
+sudo: false
+dist: trusty
+
+addons:
+  chrome: stable
+
+cache:
+  yarn: true
+
+env:
+  global:
+    - JOBS=1
+
+script:
+  - yarn lint
+  - yarn test

@@ -1,0 +1,17 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-sm-4">
+      <ul class="list-group">
+        {{#each model as |person|}}
+          {{#link-to 'people.person' person.id classNames='list-group-item list-group-item-action'}}
+            {{person.name}}
+          {{/link-to}}
+        {{/each}}
+      </ul>
+    </div>
+
+    <div class="col-xs-12 col-sm-8">
+      {{outlet}}
+    </div>
+  </div>
+</div>

@@ -2,6 +2,8 @@
   "name": "demo-apollo",
   "private": true,
   "scripts": {
+    "lint": "wsrun lint",
+    "start": "wsrun start",
     "test": "wsrun test"
   },
   "workspaces": [
