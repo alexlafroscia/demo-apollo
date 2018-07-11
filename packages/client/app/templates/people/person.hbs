@@ -1,5 +1,9 @@
 <div class="jumbotron">
-  <h1 class="display-4">{{person.name}}</h1>
+  <input
+    class="display-4 mb-2"
+    value={{bufferedName}}
+    onChange={{action 'updateName'}}
+  />
   <p class="lead">{{person.job.title}}</p>
 </div>
 
